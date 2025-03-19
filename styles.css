@@ -1,0 +1,182 @@
+form {
+    width: 50%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  label {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  input[type="text"] {
+    width: 80%;
+    height: 40px;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+  }
+
+  button[type="submit"] {
+    width: 80%;
+    height: 40px;
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  button[type="submit"]:hover {
+    background-color: #3e8e41;
+  }
+
+  button[type="submit1"] {
+    visibility: hidden;
+    width: 80%;
+    height: 40px;
+    background-color: #564caf;
+    color: #fff;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+
+  
+   
+  
+ 
+  .grid-container {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 20px;
+  }
+  
+  .tab-button {
+    width: fit-content; /* Set a fixed width */
+    margin-right: 10px;
+    
+    border-radius: 12px;
+    padding: 9px;
+    padding-top: 7px;
+    border: 1px solid #dddddd00;
+    font-family: calibri;
+    font-weight: bold;
+    font-style: initial;
+    font-size: medium;
+  }
+
+  .tab-button.active {
+    background-color: #000000;
+    color: #ffffff;
+
+  }
+
+.spin1 {
+width: 100%;
+
+justify-items: center;
+
+}
+
+
+.spinner {
+  display: grid;
+  
+  
+  height: 100px; 
+  width: 100px;/* Adjust the height to fit your needs */
+  background-color: #ffffff;
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #3498db;
+  border-bottom: 16px solid #db3434;
+  border-left: 16px solid #fffc43;
+  border-right: 16px solid #36f780;
+  border-radius: 50%;
+ 
+  
+  
+  justify-content: center;
+  align-items: center;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.video {
+ width: 100%;
+ 
+}
+
+.btnn{
+  width: 150px;
+  height: 160px;
+  border-radius: 35%;
+  font-size: 35px;
+  margin-left: 60px;
+}
+.chatbox{
+  width: 100%;
+  height: 600px;
+   justify-items: center;
+   
+}
+.label1 {
+  font-size: 50px;
+}
+.message1{
+  width: 100%;
+ justify-items: center;
+   
+
+}
+.box{
+width: 50%;
+height: 100px;
+font-size: 45px;
+border: 35;
+padding: 12px;
+border-radius: 20%;
+border-color: #36f780;
+
+}
+@media only screen and (min-width: 1000px) {
+  .video {
+    width: 50%;
+    
+    
+  }
+}
+
+
+.label {
+font-size: 30px;
+  display: inline-block;
+}
+
+.link1 {
+  width: 200px !important;
+  height: auto;
+  display: none;
+  padding: 0;
+  gap: 0;
+}
+
+
+
+
+
+
+  
+ 

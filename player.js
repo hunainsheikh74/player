@@ -1,0 +1,228 @@
+const firebaseConfig = {
+    apiKey: "AIzaSyBeOhO5fQIM0-6HsJsqy8UpD2DZuWzFKU4",
+    authDomain: "aiwhtsapp.firebaseapp.com",
+    databaseURL: "https://aiwhtsapp-default-rtdb.firebaseio.com",
+    projectId: "aiwhtsapp",
+    storageBucket: "aiwhtsapp.firebasestorage.app",
+    messagingSenderId: "176143610558",
+    appId: "1:176143610558:web:d2e9c84c9462de98e8a4ef",
+    measurementId: "G-R63XQHV76C"
+  };
+  
+  
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  
+  const db = firebase.database();
+
+
+const linkBtn = document.getElementById('linkbtn');
+const linkInput = document.getElementById('link');
+const video = document.getElementById('video');
+
+const minWidth = window.innerWidth;
+console.log(minWidth)
+if (minWidth > 1000) {
+user = 'admin'
+ buser = 'guest'
+ video.setAttribute('controls', '');
+} else {
+     user = 'guest'
+    buser = 'admin'
+    
+}
+
+
+
+
+  linkBtn.addEventListener('click', () => {
+    const linkValue = linkInput.value.trim();
+    if (linkValue !== '') {
+      db.ref('links').update({
+        link: linkValue,
+      }).then(() => {
+       linkInput.value = '';
+      }).catch((error) => {
+        console.error('Error saving link:', error);
+      });
+    } else {
+      console.log('Please enter a link');
+    }
+  });
+
+  db.ref('links').child(buser).child('state').on('value', (dataSnapshot) => {
+    const linkValue = dataSnapshot.val();
+    if (linkValue < 3) {
+        video.pause();
+    }
+  });
+
+  db.ref('links').child(buser).child('load').on('value', (dataSnapshot) => {
+    const linkValue = dataSnapshot.val();
+    if (linkValue !== 'ready') {
+        video.pause();
+    }
+  });
+
+  db.ref('links').child(buser).child('time').on('value', (dataSnapshot) => {
+    const linkValue = dataSnapshot.val();
+    if (user === 'guest') {
+    const ctime = linkValue - video.currentTime;
+    const post =  Math.abs(ctime);
+    if (post > 3){
+        video.currentTime = linkValue
+    }
+}
+  });
+
+  db.ref('links').child(buser).child('status').on('value', (dataSnapshot) => {
+    const linkValue = dataSnapshot.val();
+    if (user === 'guest') {
+    
+    if (linkValue === false){
+       video.play();
+    } else {
+        video.pause();
+    }
+}
+  });
+
+
+  const linksRef = db.ref('links').child('link')
+
+linksRef.on('value', (dataSnapshot) => {
+  const linkValue = dataSnapshot.val();
+  video.src = linkValue;
+});
+
+video.addEventListener('timeupdate', (event) => {
+    
+    
+    const currentTime = video.currentTime;
+    db.ref('links').child(user).update({
+        time: currentTime,
+        status : video.paused,
+        state: video.readyState
+       
+        
+      })
+      db.ref('links').child(buser).child('time').on('value', (dataSnapshot) => {
+        const linkValue = dataSnapshot.val();
+        if (user === 'guest') {
+        const ctime = linkValue - video.currentTime;
+        const post =  Math.abs(ctime);
+        if (post > 3){
+            video.currentTime = linkValue
+        }
+    }
+      });
+
+      db.ref('links').child(buser).child('time').on('value', (dataSnapshot) => {
+        const linkValue = dataSnapshot.val();
+       
+        const ctime = linkValue - video.currentTime;
+        const post =  Math.abs(ctime);
+        if (post > 5){
+            video.pause();
+        }
+   })});
+
+  video.addEventListener('waiting', () => {
+    video.pause();
+    db.ref('links').child(user).update({
+        load: 'loading'
+        
+        
+        
+      })
+  });
+  
+  video.addEventListener('canplay', () => {
+    
+    db.ref('links').child(user).update({
+        load: 'ready',
+        state: video.readyState
+       
+     })
+  });
+
+  video.addEventListener('stalled', () => {
+    video.pause();
+    db.ref('links').child(user).update({
+        load: 'loading'
+        
+        
+      })
+  });
+  video.addEventListener('loadstart', () => {
+    video.pause();
+    db.ref('links').child(user).update({
+        load: 'loading'
+        
+        
+      })
+  });
+
+  video.addEventListener('play', function() {
+    db.ref('links').child(buser).child('state').on('value', (snapshot) => {
+        const value = snapshot.val();
+        if (value < 3) {
+        video.pause();
+        }
+      });
+      db.ref('links').child(buser).child('load').on('value', (dataSnapshot) => {
+        const linkValue = dataSnapshot.val();
+        if (linkValue !== 'ready') {
+            video.pause();
+        }
+      });
+
+  });
+
+
+const a1 = document.getElementById('a1');
+const a2 = document.getElementById('a2');
+const g1 = document.getElementById('g1');
+const g2 = document.getElementById('g2');
+
+  db.ref('links').child('admin').child('load').on('value', (dataSnapshot) => {
+    const linkValue = dataSnapshot.val();
+    if (linkValue !== 'ready') {
+        a1.style.color = 'red';
+    } else {
+        a1.style.color = 'green';
+    }
+  });
+ 
+  db.ref('links').child('admin').child('state').on('value', (dataSnapshot) => {
+    const linkValue = dataSnapshot.val();
+    if (linkValue > 2) {
+        a2.style.color = 'green';
+    } else {
+        a2.style.color = 'red';
+    }
+  });
+
+  db.ref('links').child('guest').child('state').on('value', (dataSnapshot) => {
+    const linkValue = dataSnapshot.val();
+    if (linkValue > 2) {
+        g1.style.color = 'green';
+    } else {
+        g1.style.color = 'red';
+    }
+  });
+
+  db.ref('links').child('guest').child('load').on('value', (dataSnapshot) => {
+    const linkValue = dataSnapshot.val();
+    if (linkValue !== 'ready') {
+        g2.style.color = 'red';
+    } else {
+        g2.style.color = 'green';
+    }
+  });
+
+  const fullscreenbtn = document.getElementById('btnn');
+  fullscreenbtn.addEventListener('click', () => {
+    video.requestFullscreen();
+  });
+  
